@@ -1,0 +1,7 @@
+MAS jasonEmbeddedProject {
+	infrastructure: Centralised
+	agents:
+		max agentArchClass jason.Argo;
+	aslSourcePath:
+		"asl";
+}

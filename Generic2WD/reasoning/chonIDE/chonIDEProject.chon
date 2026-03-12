@@ -1,0 +1,14 @@
+{
+   "id":31,
+   "name":"chonIDEProject",
+   "agents":[
+      {
+         "archClass":"jason.Argo",
+         "name":"max",
+         "sourceCode":"/* Initial beliefs and rules */\nserialPort(ttyUSB0).\n/* Initial goals */\n!start.\n\n/* Plans */\n+!start: serialPort(SerialPort) <- \n    .print(\"I am Max the Road Warrior!\"); \n    .argo.port(SerialPort);\n\t.argo.limit(1000);\n    .argo.percepts(open).\n\n+!rollOut <- .argo.act(buzzerOn); .wait(200);.argo.act(buzzerOff); .wait(200); .argo.act(lightOn); .wait(200); .argo.act(breakLOn); .wait(200); .argo.act(speedH); .wait(200); !!decide.\n\n+!decide: luminosity(Lu) & Lu<900 & distance(D) & D > 30 <- !run; !!decide.\n+!decide: luminosity(Lu) & Lu<900 & distance(D) & D <= 30 <- !buzzer; !stop; !!decide.\n+!decide: luminosity(Lu) & Lu>900 <- !stop; !!decide.\n-!decide <- .wait(1000); !!decide.\n\n+!run: not motor(running) <- .argo.act(breakLOff); .wait(500); .argo.act(alertOn); .wait(500); .argo.act(goAhead); .wait(500).\n+!run: motor(running).\n\n+!buzzer <- .argo.act(buzzerOnH); .wait(1000);.argo.act(buzzerOff); .wait(500).\n\n+!stop: not motor(stopped) <- .argo.act(stop); .wait(500); .argo.act(flashLightOff); .wait(500); .argo.act(breakLOn); .wait(500).\n+!stop: motor(stopped).\n\n\n+luminosity(Lu) <- .print(\"Luminosity Status -> \",Lu).\n+flashLight(FL) <- .print(\"FlashLight Status -> \",FL).\n+distance(D)    <- .print(\"Distance Status -> \",D).\n+breakL(BL)     <- .print(\"Break Light Status -> \",BL).\n+buzzer(B)      <- .print(\"Buzzer Status -> \",B).\n+lineL(LL)      <- .print(\"Line-following Left Status -> \",LL). \n+lineR(LR)      <- .print(\"Line-following Right Status -> \",LR).\n+motor(M)       <- .print(\"Motor Status -> \",M).\n+light(L)       <- .print(\"Light Status -> \",L).\n+speed(S)       <- .print(\"Speed Status -> \",S).  \n\n+port(P,S): (S=off | S=timeout) & serialPort(SP) & P=SP <- \n    .print(\"Serial Port \",SP, \" is \",S,\"!\");\n    .stopMAS.                                         \n\n+port(P,S): (S=on) <- \n    .print(\"Autobots Roll out!!!\");\n    !rollOut."
+      }
+   ],
+   "firmwares":[
+      
+   ]
+}
